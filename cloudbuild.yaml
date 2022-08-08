@@ -1,0 +1,17 @@
+steps:
+#First Clone from Google Cloud Source Repository  
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone','https://source.developers.google.com/p/credible-bay-346209/r/github_prasadrpm_dockerdemo']
+  
+#Gradle build  
+- name: 'gradle:7.5.0-jdk17'
+  entrypoint: 'gradle'
+  args: ['assemble', '-p', '/e-action']
+   
+#Docker Image   
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build','-t','gcr.io/credible-bay-346209/e-auction','.']
+
+#Push the image  
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push','gcr.io/credible-bay-346209/e-auction']
